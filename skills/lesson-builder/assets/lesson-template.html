@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- ชื่อบทเรียน 2–4 คำ -->
+<title>ชื่อบทเรียน</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+<!--
+  วิธีใช้ template นี้
+  - เติมเนื้อหาใน <main> ด้วย component ด้านล่าง ไม่ต้องแก้ CSS/JS
+  - Components:
+      <section class="module" id="m1"> ... </section>        หนึ่งบท
+      <div class="objectives"><h3>จุดประสงค์</h3><ul>..</ul></div>
+      <div class="scenario"><h3>สถานการณ์</h3>..</div>       สถานการณ์เปิดเรื่อง/กรณีศึกษา
+      <div class="example"><h3>ตัวอย่างแสดงวิธีทำ</h3><ol>..</ol></div>
+      <div class="warn"><h3>ระวังเข้าใจผิด</h3>..</div>
+      <div class="key"><h3>สรุป</h3><ul>..</ul></div>
+      <figure><pre class="mermaid">flowchart TD ...</pre><figcaption>อ่านภาพอย่างไร</figcaption></figure>
+      แบบฝึกหัด/ลองคิดที่มีเฉลยซ่อน:
+        <div class="exercise"><p class="q">โจทย์</p>
+          <details><summary>ดูเฉลย</summary><p>คำตอบ + เหตุผล</p></details></div>
+      แบบทดสอบตรวจคะแนนอัตโนมัติ (ห่อทุกข้อใน <form class="quiz">):
+        <form class="quiz">
+          <div class="qitem" data-answer="b" data-review="บทที่ 2">
+            <p class="q">1. คำถาม</p>
+            <label><input type="radio" name="q1" value="a"> ตัวเลือก</label>
+            ...
+            <div class="fb" data-for="a">ทำไมตัวเลือก a ผิด</div>
+            <div class="fb" data-for="b">ทำไม b ถูก</div>
+          </div>
+          <button type="submit">ตรวจคำตอบ</button><p class="score"></p>
+        </form>
+-->
+<style>
+:root{--bg:#fbfaf7;--fg:#1f2328;--muted:#5b6470;--card:#ffffff;--line:#e4e1d8;
+--accent:#2f6f5e;--accent-bg:#e7f2ee;--warn:#9a4b12;--warn-bg:#fdf0e4;
+--ex-bg:#eef3fb;--ex:#2b4f8a;--ok:#1f7a3a;--bad:#b42318}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#16181b;--fg:#e8e6e1;--muted:#a3a9b2;
+--card:#1e2125;--line:#30343a;--accent:#7cc7ad;--accent-bg:#1d2e29;--warn:#f0a56a;--warn-bg:#33251a;
+--ex-bg:#1c2433;--ex:#9bb8ec;--ok:#6fd08f;--bad:#ff8a80}}
+:root[data-theme="dark"]{--bg:#16181b;--fg:#e8e6e1;--muted:#a3a9b2;--card:#1e2125;--line:#30343a;
+--accent:#7cc7ad;--accent-bg:#1d2e29;--warn:#f0a56a;--warn-bg:#33251a;--ex-bg:#1c2433;--ex:#9bb8ec;--ok:#6fd08f;--bad:#ff8a80}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.75 "Sarabun",system-ui,sans-serif}
+main{max-width:760px;margin:0 auto;padding:32px 16px 80px}
+h1{font-size:2rem;line-height:1.3;margin:.2em 0}
+h2{font-size:1.45rem;margin:2.2em 0 .6em;padding-top:.6em;border-top:1px solid var(--line)}
+h3{font-size:1.05rem;margin:0 0 .4em}
+.lede{color:var(--muted)}
+nav.toc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 18px}
+nav.toc a{color:var(--accent)}
+.objectives,.scenario,.example,.warn,.key,.exercise{border-radius:10px;padding:14px 18px;margin:1.2em 0;border:1px solid var(--line);background:var(--card)}
+.objectives{border-left:4px solid var(--accent)}
+.scenario{background:var(--accent-bg);border-color:transparent}
+.example{background:var(--ex-bg);border-color:transparent}.example h3{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:transparent}.warn h3{color:var(--warn)}
+.key{border-left:4px solid var(--accent)}
+.q{font-weight:600;margin:.2em 0 .5em}
+details summary{cursor:pointer;color:var(--accent);font-weight:600}
+details[open] summary{margin-bottom:.4em}
+figure{margin:1.4em 0;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto}
+figcaption{color:var(--muted);font-size:.9rem;margin-top:.5em}
+table{border-collapse:collapse;width:100%;font-size:.95rem;display:block;overflow-x:auto}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-bg)}
+.quiz .qitem{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:1em 0}
+.quiz label{display:block;padding:4px 6px;border-radius:6px;cursor:pointer}
+.quiz label:hover{background:var(--accent-bg)}
+.quiz .fb{display:none;margin-top:.5em;font-size:.95rem}
+.quiz .qitem.done .fb.show{display:block}
+.quiz .qitem.right{border-color:var(--ok)}.quiz .qitem.wrong{border-color:var(--bad)}
+.quiz .verdict{font-weight:700}.right .verdict{color:var(--ok)}.wrong .verdict{color:var(--bad)}
+button{font:inherit;background:var(--accent);color:var(--bg);border:0;border-radius:8px;padding:8px 20px;cursor:pointer}
+.score{font-weight:700;font-size:1.1rem}
+</style>
+</head>
+<body>
+<main>
+  <h1>ชื่อบทเรียน</h1>
+  <p class="lede">คำโปรยหนึ่งประโยค · เวลาเรียนโดยประมาณ</p>
+  <nav class="toc"><strong>สารบัญ</strong><ol><li><a href="#m1">บทที่ 1</a></li></ol></nav>
+
+  <!-- เนื้อหาบทเรียน -->
+
+</main>
+<script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.esm.min.mjs";
+const dark = matchMedia("(prefers-color-scheme: dark)").matches && document.documentElement.dataset.theme !== "light";
+mermaid.initialize({ startOnLoad: true, theme: dark ? "dark" : "neutral", fontFamily: "Sarabun, sans-serif" });
+</script>
+<script>
+document.querySelectorAll("form.quiz").forEach(form => {
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const items = form.querySelectorAll(".qitem");
+    let right = 0; const review = new Set();
+    items.forEach(item => {
+      const picked = item.querySelector("input:checked");
+      const ok = picked && picked.value === item.dataset.answer;
+      if (ok) right++; else if (item.dataset.review) review.add(item.dataset.review);
+      item.classList.add("done");
+      item.classList.toggle("right", !!ok); item.classList.toggle("wrong", !ok);
+      item.querySelectorAll(".fb").forEach(fb => fb.classList.toggle("show",
+        fb.dataset.for === item.dataset.answer || (picked && fb.dataset.for === picked.value)));
+      let v = item.querySelector(".verdict");
+      if (!v) { v = document.createElement("p"); v.className = "verdict"; item.appendChild(v); }
+      v.textContent = ok ? "✓ ถูกต้อง" : (picked ? "✗ ยังไม่ถูก" : "— ยังไม่ได้ตอบ");
+    });
+    form.querySelector(".score").textContent =
+      `ได้ ${right} / ${items.length} คะแนน` + (review.size ? ` · แนะนำให้ทบทวน: ${[...review].join(", ")}` : " · เยี่ยมมาก!");
+  });
+});
+</script>
+</body>
+</html>
